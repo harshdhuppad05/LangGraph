@@ -22,8 +22,24 @@ class State(TypedDict):
     message_type: str | None
 
 def classify_message(state:State):
+    last_message = state["messages"][-1]
+    classifier_llm = llm.with_structured_output(Message_Classifier)
+
+    result = classifier_llm.invoke([
+        {
+            "role": "system",
+            "content":"""
+                classify the user message as either:
+                - 'emothional' : if it asks for emotional support, therapy, deal with feelings, or personal problems
+                - 'logical': if it asks for facts, information, logical analysis or practical solutions
+            """
+        },
+        {
+            "role":"user", "content": last_message.content
+        }
+    ])
+    return {"message_type":result.message_type}
     
-    pass
 
 def therapist_agent(state:State):
     pass
