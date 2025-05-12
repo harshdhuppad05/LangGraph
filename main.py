@@ -104,5 +104,27 @@ graph_builder.add_edge("logical", END)
 graph_builder.add_edge("therapist", END)
 
 
-graph_builder.compile()
+graph = graph_builder.compile()
 
+def run_chatbot():
+    state = {"messages": [], "message_type": None}
+
+    while True:
+        user_input = input("Message: ")
+        if user_input == "exit":
+            print("have a nice day \n bye")
+            break
+        state["messages"] = state.get("messages", [])+[
+            {
+                "role":"user", "content":user_input
+            }
+        ]
+
+        state = graph.invoke(state)
+
+        if state.get("messages") and len(state["messages"])>0:
+            last_message = state["messages"][-1]
+            print(f"Assitant: {last_message.content}")
+
+if __name__ == "__main__":
+    run_chatbot()
