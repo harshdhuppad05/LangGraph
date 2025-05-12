@@ -42,17 +42,18 @@ def classify_message(state:State):
     
 
 def therapist_agent(state:State):
-    message_type = state.get('message_type', 'logical')
-    if message_type == "emotional":
-        return {"next":"therapist"}
-    return {"next":"logical"}
+    
+    pass
 
 
 def logical_agent(state:State):
     pass
 
 def router(state: State):
-    pass
+    message_type = state.get('message_type', 'logical')
+    if message_type == "emotional":
+        return {"next":"therapist"}
+    return {"next":"logical"}
 
 
 graph_builder = StateGraph(State)
