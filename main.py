@@ -42,7 +42,11 @@ def classify_message(state:State):
     
 
 def therapist_agent(state:State):
-    pass
+    message_type = state.get('message_type', 'logical')
+    if message_type == "emotional":
+        return {"next":"therapist"}
+    return {"next":"logical"}
+
 
 def logical_agent(state:State):
     pass
